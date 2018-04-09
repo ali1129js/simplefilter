@@ -2,7 +2,7 @@
  * @Author: Ali Ismail
  * @Date:   2018-04-09T10:46:38+02:00
  * @Last modified by:   Ali Ismail
- * @Last modified time: 2018-04-09T10:55:31+02:00
+ * @Last modified time: 2018-04-09T11:21:08+02:00
  */
 
 
@@ -31,9 +31,28 @@ const people = [
   }
 ]
 class App extends Component {
+  constructor(){
+    super();
+    this.state = {
+      searchInput:'',
+      people:people
+    }
+    this.handleChange = this.handleChange.bind(this);
+  }
+  handleChange(e){
+    this.setState({
+    searchInput: e.target.value
+    });
+  }
   render() {
     return (
       <div className="App">
+        <form>
+          <input
+            type="text"
+            value={this.state.searchInput}
+            onChange={this.handleChange}/>
+        </form>
         {
           people.map(person =>
             <div key={person.id}>
