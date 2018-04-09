@@ -2,7 +2,7 @@
  * @Author: Ali Ismail
  * @Date:   2018-04-09T10:46:38+02:00
  * @Last modified by:   Ali Ismail
- * @Last modified time: 2018-04-09T11:21:08+02:00
+ * @Last modified time: 2018-04-09T12:00:40+02:00
  */
 
 
@@ -30,6 +30,11 @@ const people = [
     age:22
   }
 ]
+function theFilter(searchInput) {
+ return function (x) {
+   return x.first.toLowerCase().includes(searchInput.toLowerCase()) || !searchInput;
+ }
+}
 class App extends Component {
   constructor(){
     super();
@@ -39,32 +44,40 @@ class App extends Component {
     }
     this.handleChange = this.handleChange.bind(this);
   }
+
   handleChange(e){
-    this.setState({
-    searchInput: e.target.value
-    });
+    this.setState({searchInput:e.target.value});
   }
   render() {
+    const { searchInput, people } = this.state;
     return (
       <div className="App">
         <form>
           <input
             type="text"
-            value={this.state.searchInput}
-            onChange={this.handleChange}/>
+            value={searchInput}
+            onChange={this.handleChange}
+          />
         </form>
-        {
-          people.map(person =>
-            <div key={person.id}>
-              <h1> {person.name} </h1>
-              <h1> {person.last} </h1>
-              <h1> {person.age} </h1>
-            </div>
-            )
-        }
+        {people.filter(theFilter(searchInput)).map( person =>
+          <div key={person.id}>
+            <h3>{person.first}</h3>
+            <h3>{person.last}</h3>
+          </div>
+        )}
       </div>
     );
   }
 }
 
 export default App;
+/*
+
+  people.filter(theFilter({searchInput}).map( person =>
+    <div key={person.id}>
+      <h1> {person.name} </h1>
+      <h1> {person.last} </h1>
+      <h1> {person.age} </h1>
+    </div>
+  )
+*/
